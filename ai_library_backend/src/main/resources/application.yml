@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: ai_library_backend
+  profiles:
+    # 默认走 dev（本机数据库）。部署时用环境变量 SPRING_PROFILES_ACTIVE=prod 切换。
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      table-prefix: t_
+  type-aliases-package: com.book.backend.pojo
+
+knife4j:
+  enable: true
+  openapi:
+    title: "图书管理系统后台接口文档"
+    description: "ai_library_backend"
+    version: "1.0"
+    license: Apache 2.0
+    license-url: https://stackoverflow.com/
+    terms-of-service-url: https://www.granvilledon.top
+    group:
+      test1:
+        group-name: default
+        api-rule: package
+        api-rule-resources:
+          - com.book.backend.controller
+
+# ============================================================
+# 讯飞星火开放平台凭证
+# 出于安全考虑不写入仓库：本地开发写进 application-local.yml（已被 .gitignore 排除），
+# 部署时用环境变量注入。三项任一为空时，AI 相关接口会返回明确的配置提示，
+# 而不是发一次注定失败的请求。
+# 申请地址：https://console.xfyun.cn/
+# ============================================================
+spark:
+  app-id: ${SPARK_APP_ID:}
+  api-key: ${SPARK_API_KEY:}
+  api-secret: ${SPARK_API_SECRET:}
+
+# JWT 配置
+jwt:
+  tokenHeader: Authorization
+  secret: ${JWT_SECRET:ai-library-dev-secret-please-change-me}
+  expiration: 36000000
+  tokenHead: Bearer

@@ -1,0 +1,814 @@
+/* AI图书馆管理系统 - 全局样式表
+ * 主题色系: 柴犬棕黄风格
+ * 作用范围: 所有组件通用样式
+ *
+ * 设计原则:
+ * - 使用CSS变量统一管理主题色,便于后期维护和换肤
+ * - 大量使用!important覆盖Element UI默认样式,确保主题一致性
+ * - 圆角统一为8px或12px,保持视觉连贯性
+ * - 渐变背景用于重要交互元素(按钮/导航栏),提升质感
+ */
+
+/* ========== CSS变量定义 ==========
+ * 命名规范: --chai-{用途}-{深浅}
+ * 使用场景: 所有组件通过var()引用,禁止硬编码颜色值
+ */
+:root {
+    /* 主色调系 - 柴犬棕黄核心配色 */
+    --chai-primary: #D4A574; /* 柴犬棕黄 - 品牌主色,用于按钮/链接/强调元素 */
+    --chai-primary-dark: #B8860B; /* 深琥珀色 - 悬停/激活状态,比主色更深以提供视觉反馈 */
+    --chai-light: #F5E6D3; /* 奶油米色 - 页面背景/卡片底色,温暖柔和不刺眼 */
+    --chai-white: #FFFEF9; /* 暖白色 - 纯白背景区域,略带黄色调避免冷白 */
+    --chai-divider: #E8D5B7; /* 浅米色 - 分隔线/边框,低对比度不抢视线 */
+
+    /* 文字颜色系 - 保证可读性和层级区分 */
+    --chai-text-primary: #5D4037; /* 深咖啡色 - 标题/重要文字,最高优先级文本 */
+    --chai-text-secondary: #6B4423; /* 中棕色 - 正文内容,日常阅读主要颜色 */
+    --chai-text-hint: #8B7355; /* 浅棕色 - 辅助说明/占位符,最低优先级提示文本 */
+
+    /* 状态色系 - 标准化操作反馈 */
+    --chai-success: #9ACD32; /* 黄绿色 - 成功状态,与主色系协调的绿色 */
+    --chai-warning: #FFA500; /* 橙色 - 警告提示,引起注意但不过于强烈 */
+    --chai-error: #CD5C5C; /* 珊瑚红 - 错误/危险操作,柔和红色避免过于刺眼 */
+}
+
+/* ========== 基础重置样式 ==========
+ * 目标: 消除浏览器默认样式差异,建立统一基准
+ * 注意: 此处不使用!important,允许后续组件灵活覆盖
+ */
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+a {
+    text-decoration: none; /* 移除下划线,保持页面简洁 */
+    color: var(--chai-primary); /* 链接使用品牌色,可识别且美观 */
+}
+
+a:hover {
+    color: var(--chai-primary-dark); /* 悬停加深,提供交互反馈 */
+}
+
+html, body, #app {
+    height: 100%; /* 撑满视口高度,确保布局完整 */
+    margin: 0;
+    padding: 0;
+    min-width: 1366px;
+    /* 最小支持分辨率: 1366x768
+                           * 低于此宽度会出现横向滚动条
+                           * 移动端需单独适配或使用响应式方案 */
+    background-color: var(--chai-light) !important; /* 全局背景色,统一视觉基调 */
+    color: var(--chai-text-secondary); /* 默认文字颜色,正文级别 */
+}
+
+ul {
+    list-style: none; /* 移除列表符号,自定义导航菜单时更灵活 */
+    margin: 0px;
+    padding: 0px;
+}
+
+/* ========== Element UI 组件样式定制 ==========
+ * 策略: 通过!important强制覆盖Element UI默认蓝色主题
+ * 优先级: 类选择器 + !important > Element UI内部样式
+ * 维护提示: 升级Element UI版本后需重新验证样式兼容性
+ */
+
+/* 面包屑导航 - 路径指示器
+ * 使用场景: 多级页面导航,帮助用户定位当前位置
+ * 设计规范: 字号较小(12px),避免喧宾夺主 */
+.el-breadcrumb {
+    margin-bottom: 15px; /* 与下方内容保持间距 */
+    font-size: 12px; /* 小字号,次要导航元素 */
+}
+
+.el-breadcrumb__item a {
+    color: var(--chai-text-secondary) !important; /* 普通链接用正文色 */
+}
+
+.el-breadcrumb__item a:hover {
+    color: var(--chai-primary) !important; /* 悬停变品牌色,提示可点击 */
+}
+
+.el-breadcrumb__separator {
+    color: var(--chai-text-hint) !important; /* 分隔符用最浅色,降低视觉干扰 */
+}
+
+/* 卡片容器 - 内容承载单元
+ * 设计要点: 轻微阴影营造层次感,圆角12px更显柔和
+ * 应用场景: 数据展示区/表单区域/功能模块分组 */
+.el-card {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15) !important; /* 极轻阴影,仅1px模糊 */
+    background-color: var(--chai-light) !important; /* 与页面背景同色,融入整体 */
+    border-color: var(--chai-primary) !important; /* 品牌色边框, subtly 强调边界 */
+    border-radius: 12px !important; /* 较大圆角,现代感设计 */
+}
+
+/* 数据表格 - 结构化数据展示
+ * 字号策略: 12px紧凑显示,适合密集数据
+ * 交互反馈: 斑马纹+悬停高亮,提升可读性 */
+.el-table {
+    margin-top: 15px; /* 与上方元素保持间距 */
+    font-size: 12px; /* 小字号容纳更多数据 */
+    background-color: var(--chai-light) !important;
+}
+
+.el-table th {
+    background-color: var(--chai-light) !important; /* 表头与单元格同色,简洁统一 */
+    color: var(--chai-text-primary) !important; /* 表头用最深色,突出重要性 */
+}
+
+.el-table td {
+    background-color: var(--chai-light) !important;
+    color: var(--chai-text-secondary) !important; /* 单元格用正文色 */
+    border-bottom: 1px solid var(--chai-divider) !important; /* 浅色分隔线,行际区分 */
+}
+
+/* 斑马纹行背景 - 交替着色提升长表格可读性
+ * 透明度0.2: 轻微区分,不造成视觉疲劳
+ * 计算公式: rgba(212, 165, 116, 0.2) = --chai-primary + 20%透明度 */
+.el-table--striped .el-table__body tr.el-table__row--striped td {
+    background-color: rgba(212, 165, 116, 0.2) !important;
+}
+
+/* 表格行悬停效果 - 鼠标跟随高亮
+ * 透明度0.3: 比斑马纹更深,明确当前操作行
+ * 用户体验: 防止看错行,特别是宽表格场景 */
+.el-table__row:hover td {
+    background-color: rgba(212, 165, 116, 0.3) !important;
+}
+
+/* 分页组件 - 大数据集导航
+ * 布局位置: 表格底部右对齐
+ * 交互逻辑: 当前页高亮,其他页透明背景 */
+.el-pagination {
+    margin-top: 15px; /* 与表格保持间距 */
+}
+
+.el-pagination .el-pager li {
+    color: var(--chai-text-secondary) !important; /* 页码用正文色 */
+    background-color: transparent !important; /* 默认无背景,减少视觉噪音 */
+}
+
+.el-pagination .el-pager li.active {
+    background-color: var(--chai-primary) !important; /* 当前页品牌色背景 */
+    color: var(--chai-text-primary) !important; /* 当前页深色文字,对比鲜明 */
+}
+
+.el-pagination button {
+    color: var(--chai-text-secondary) !important; /* 上一页/下一页按钮 */
+    background-color: transparent !important;
+}
+
+/* 级联选择器菜单高度 - 固定高度避免过长
+ * 400px权衡: 既能显示足够选项,又不会超出视口
+ * 滚动机制: 超出部分自动出现滚动条 */
+.el-cascader-menu {
+    height: 400px;
+    background-color: var(--chai-light) !important;
+}
+
+/* 步骤条间距 - 流程引导组件
+ * 适用场景: 多步骤表单/业务流程展示
+ * 垂直间距: 15px上下留白,呼吸感 */
+.el-steps {
+    margin: 15px 0;
+}
+
+.el-step__title {
+    font-size: 13px; /* 步骤标题略大于正文 */
+}
+
+/* 富文本编辑器最小高度 - Quill编辑器定制
+ * 300px考量: 保证可见编辑区域足够大
+ * 应用场景: 公告发布/规则说明等长文本输入 */
+.ql-editor {
+    min-height: 300px;
+    background-color: var(--chai-light) !important;
+}
+
+body {
+    position: relative; /* 为绝对定位子元素提供参考坐标系 */
+}
+
+.el-main {
+    margin: 0px;
+    padding: 20px; /* 主内容区内边距,避免贴边 */
+    background-color: var(--chai-light) !important;
+}
+
+/* ========== 布局组件样式 ==========
+ * 布局结构: Header(顶栏) + Aside(侧栏) + Main(主内容)
+ * 响应式策略: 当前为固定布局,后续可扩展为弹性布局
+ */
+
+/* 顶部导航栏 - 渐变背景增强视觉层次
+ * 渐变方向: 135度对角线,从左上到右下
+ * 色彩过渡: 主色 → 深色,营造立体感
+ * 功能定位: 系统名称/用户信息/退出登录 */
+.el-header {
+    background: linear-gradient(135deg, var(--chai-primary) 0%, var(--chai-primary-dark) 100%) !important;
+    color: var(--chai-text-primary) !important;
+}
+
+/* 侧边栏容器 - 菜单承载区域
+ * 宽度控制: 通过width属性调节,默认200px
+ * 背景统一: 与页面同色,无边框分割 */
+.el-aside {
+    background-color: var(--chai-light) !important;
+}
+
+.el-aside .el-menu {
+    background-color: var(--chai-light) !important;
+    border-right: none !important; /* 移除右侧边框,扁平化设计 */
+}
+
+/* ========== 菜单系统样式 ==========
+ * 交互状态: 默认/悬停/激活 三种状态清晰区分
+ * 色彩逻辑: 悬停用深色背景+白字,激活用品牌色背景+深字
+ * 嵌套支持: 子菜单继承父级样式 */
+
+/* 普通菜单项 - 默认状态 */
+.el-menu-item {
+    background-color: var(--chai-light) !important;
+    color: var(--chai-text-secondary) !important;
+}
+
+/* 当前激活菜单项 - 高亮显示当前位置
+ * 视觉权重: 品牌色背景,最醒目
+ * 文字颜色: 深色保证对比度 */
+.el-menu-item.is-active {
+    background-color: var(--chai-primary) !important;
+    color: var(--chai-text-primary) !important;
+}
+
+/* 菜单项悬停效果 - 即时反馈
+ * 深色背景+白字: 强对比,明确指向
+ * 陷阱提示: 必须同时设置background和color,否则文字看不清 */
+.el-menu-item:hover {
+    background-color: var(--chai-primary-dark) !important;
+    color: #fff !important; /* 白色文字在深色背景上 */
+}
+
+/* 子菜单标题 - 可展开的菜单组
+ * 样式同步: 与普通菜单项保持一致 */
+.el-submenu__title {
+    background-color: var(--chai-light) !important;
+    color: var(--chai-text-secondary) !important;
+}
+
+.el-submenu__title:hover {
+    background-color: var(--chai-primary-dark) !important;
+    color: #fff !important;
+}
+
+.el-submenu .el-menu-item {
+    background-color: var(--chai-light) !important; /* 子菜单项背景 */
+}
+
+/* ========== 按钮组件样式 ==========
+ * 按钮层级: Primary(主要操作) > Success/Warning(状态操作) > Default(次要操作)
+ * 圆角统一: 8px适中圆角,兼顾现代感和辨识度
+ * 交互反馈: 悬停上移+阴影加深,模拟物理按压感
+ */
+
+/* 主要按钮 - 渐变背景突出重要性
+ * 使用频率: 60%的场景,如提交/保存/确认
+ * 渐变优势: 比纯色更有质感,引导用户点击 */
+.el-button--primary {
+    background: linear-gradient(135deg, var(--chai-primary) 0%, var(--chai-primary-dark) 100%) !important;
+    border: none !important; /* 移除边框,纯渐变背景 */
+    color: var(--chai-text-primary) !important;
+    border-radius: 8px !important;
+}
+
+.el-button--primary:hover {
+    background-color: var(--chai-primary-dark) !important; /* 悬停切换为纯色,简化渲染 */
+    transform: translateY(-2px); /* 悬停上移效果,模拟浮起 */
+    box-shadow: 0 4px 12px rgba(212, 165, 116, 0.4); /* 阴影加深,强化立体感 */
+}
+
+/* 成功按钮 - 正向操作标识
+ * 应用场景: 通过审核/完成借阅/添加成功
+ * 色彩心理: 绿色代表安全/通过 */
+.el-button--success {
+    background-color: var(--chai-success) !important;
+    border-color: var(--chai-success) !important;
+    color: #fff !important; /* 白色文字在绿色背景上 */
+}
+
+/* 警告按钮 - 提醒用户谨慎操作
+ * 应用场景: 删除确认/逾期处理/权限变更
+ * 色彩选择: 橙色介于红黄之间,警示但不恐慌 */
+.el-button--warning {
+    background-color: var(--chai-warning) !important;
+    border-color: var(--chai-warning) !important;
+    color: #fff !important;
+}
+
+/* ========== 表单组件样式 ==========
+ * 设计哲学: 表单项应清晰可见但不突兀
+ * 焦点管理: 聚焦时外发光提示,提升可访问性
+ * 圆角一致: 8px与按钮呼应,形成视觉体系
+ */
+
+/* 输入框 - 用户数据入口
+ * 背景策略: 浅色背景与页面融合,避免"空洞感"
+ * 边框颜色: 品牌色暗示可交互 */
+.el-input__inner {
+    background-color: var(--chai-light) !important;
+    border-color: var(--chai-primary) !important;
+    color: var(--chai-text-primary) !important;
+    border-radius: 8px !important;
+}
+
+.el-input__inner:focus {
+    box-shadow: 0 0 0 2px rgba(212, 165, 116, 0.2) !important;
+    /* 聚焦时外发光效果
+                                                                    * 2px扩散范围,20%透明度
+                                                                    * 无障碍设计: 键盘用户也能看到焦点 */
+}
+
+/* 文本域 - 多行文本输入
+ * 应用场景: 备注/评论/详细描述
+ * 样式同步: 与单行输入框保持一致 */
+.el-textarea__inner {
+    background-color: var(--chai-light) !important;
+    border-color: var(--chai-primary) !important;
+    color: var(--chai-text-primary) !important;
+}
+
+/* 下拉选择器弹出层 - 选项列表
+ * 定位方式: 绝对定位,悬浮在输入框下方
+ * 层级控制: z-index确保在最上层 */
+.el-select-dropdown {
+    background-color: var(--chai-light) !important;
+    border-color: var(--chai-primary) !important;
+}
+
+/* 修复 select 组件 focus 时右侧出现竖条的问题 */
+.el-select .el-input.is-focus .el-input__inner {
+    border-color: var(--chai-primary) !important;
+    box-shadow: none !important;
+}
+
+/* 确保 select 的 suffix 区域没有多余边框 */
+.el-select .el-input__suffix {
+    border: none !important;
+}
+
+/* 修复 select 组件内部可能出现的滚动条问题 */
+.el-select .el-input {
+    overflow: hidden !important;
+}
+
+.el-select .el-input__inner {
+    overflow: hidden !important;
+}
+
+.el-select-dropdown__item {
+    color: var(--chai-text-secondary) !important; /* 选项默认色 */
+}
+
+.el-select-dropdown__item.selected {
+    background-color: var(--chai-primary) !important; /* 已选中项高亮 */
+    color: var(--chai-text-primary) !important;
+}
+
+/* ========== 标签页样式 ==========
+ * 交互模式: 点击切换内容区域,避免页面跳转
+ * 激活指示: 底部横条+文字变色,双重反馈 */
+.el-tabs__header {
+    margin-bottom: 15px; /* 与内容区分隔 */
+}
+
+.el-tabs__item {
+    color: var(--chai-text-secondary) !important; /* 未激活标签 */
+}
+
+.el-tabs__item.is-active {
+    color: var(--chai-primary) !important; /* 激活标签品牌色 */
+}
+
+.el-tabs__active-bar {
+    background-color: var(--chai-primary) !important; /* 底部滑动条 */
+}
+
+.el-tabs__content {
+    background-color: var(--chai-light) !important; /* 内容区背景 */
+}
+
+/* ========== 对话框样式 ==========
+ * 模态特性: 打开时遮罩层阻止背景交互
+ * 尺寸策略: 小/中/大三档,根据内容自适应
+ * 关闭方式: 点击右上角X或遮罩层或ESC键 */
+.el-dialog {
+    background-color: var(--chai-light) !important;
+    border-color: var(--chai-primary) !important;
+}
+
+.el-dialog__header {
+    background-color: var(--chai-light) !important;
+    border-bottom: 1px solid var(--chai-divider) !important; /* 底部分隔线,区分标题和内容 */
+}
+
+.el-dialog__title {
+    color: var(--chai-text-primary) !important; /* 标题深色,醒目 */
+}
+
+/* 表单项标签 - 字段说明
+ * 对齐方式: 右对齐或顶部对齐(根据表单复杂度)
+ * 必填标识: 红色星号自动添加 */
+.el-form-item__label {
+    color: var(--chai-text-secondary) !important;
+}
+
+/* ========== 单选组件样式 ==========
+ * 两种形态: 圆形radio(独立选项) / 矩形button-group(互斥按钮)
+ * 选择逻辑: 单选只能选一个,多选可用checkbox */
+
+/* 单选框选中状态 - 圆形指示器 */
+.el-radio__input.is-checked .el-radio__inner {
+    background-color: var(--chai-primary) !important; /* 填充品牌色 */
+    border-color: var(--chai-primary) !important;
+}
+
+.el-radio__label {
+    color: var(--chai-text-secondary) !important; /* 标签文字 */
+}
+
+/* 单选按钮组 - 紧凑型互斥选择
+ * 适用场景: 性别/状态/类型等少量选项
+ * 布局优势: 比传统radio更节省空间 */
+.el-radio-button__inner {
+    background-color: var(--chai-light) !important;
+    border-color: var(--chai-primary) !important;
+    color: var(--chai-text-secondary) !important;
+    border-left: 1px solid var(--chai-primary) !important; /* 左侧分隔线 */
+}
+
+/* 单选按钮组圆角处理 - 首项
+ * 圆角逻辑: 只有第一个按钮左上左下有圆角 */
+.el-radio-button:first-child .el-radio-button__inner {
+    border-radius: 8px 0 0 8px !important;
+}
+
+/* 单选按钮组圆角处理 - 末项
+ * 圆角逻辑: 只有最后一个按钮右上右下有圆角 */
+.el-radio-button:last-child .el-radio-button__inner {
+    border-radius: 0 8px 8px 0 !important;
+}
+
+/* 单选按钮组圆角处理 - 中间项
+ * 圆角逻辑: 中间项无圆角,形成连续块状 */
+.el-radio-button:not(:first-child):not(:last-child) .el-radio-button__inner {
+    border-radius: 0 !important;
+}
+
+.el-radio-button__inner:hover {
+    color: var(--chai-primary) !important; /* 悬停文字变色 */
+}
+
+/* 单选按钮选中状态 - 关键修复
+ * 技术陷阱: Element UI默认用box-shadow模拟选中,会导致边框视觉上变粗
+ * 解决方案: 显式设置border-color并禁用box-shadow
+ * 选择器解释: .el-radio-button__orig-radio是隐藏的真实radio,:checked匹配选中状态 */
+.el-radio-button__orig-radio:checked + .el-radio-button__inner {
+    background-color: var(--chai-primary) !important;
+    border-color: var(--chai-primary) !important;
+    color: var(--chai-text-primary) !important;
+    border-left-color: var(--chai-primary) !important; /* 左边框也要同步 */
+    border-right-color: var(--chai-primary) !important; /* 右边框也要同步 */
+    box-shadow: none !important; /* 禁用阴影,避免边框变粗的视觉bug */
+}
+
+/* ========== 复选框样式 ==========
+ * 与单选的区别: 可多选,方形勾选框
+ * 应用场景: 批量操作/权限选择/兴趣爱好 */
+.el-checkbox__input.is-checked .el-checkbox__inner {
+    background-color: var(--chai-primary) !important; /* 勾选框填充 */
+    border-color: var(--chai-primary) !important;
+}
+
+.el-checkbox__label {
+    color: var(--chai-text-secondary) !important;
+}
+
+/* ========== 日期选择器样式 ==========
+ * 复合组件: 输入框 + 弹出日历面板
+ * 交互流程: 点击输入框 → 弹出日历 → 选择日期 → 回填输入框 */
+.el-date-editor .el-input__inner {
+    background-color: var(--chai-light) !important;
+}
+
+.el-picker-panel {
+    background-color: var(--chai-light) !important; /* 日历面板背景 */
+    border-color: var(--chai-primary) !important;
+}
+
+/* 日期选择器底部工具栏 - 快捷操作
+ * 包含按钮: 此刻/确定/清空
+ * 分隔线: 与日历主体区分 */
+.el-picker-panel__footer {
+    background-color: var(--chai-light) !important;
+    border-top: 1px solid var(--chai-divider) !important;
+}
+
+/* 今日日期高亮 - 快速定位
+ * 视觉提示: 品牌色文字,不加背景避免干扰选择 */
+.el-date-table td.today {
+    color: var(--chai-primary) !important;
+}
+
+/* 当前选中日期 - 用户选择的结果
+ * 双向反馈: 背景色+文字色同时变化
+ * 禁用排除: :not(.disabled)确保不可选日期不被选中 */
+.el-date-table td.current:not(.disabled) {
+    background-color: var(--chai-primary) !important;
+    color: var(--chai-text-primary) !important;
+}
+
+.el-date-table td.current:not(.disabled):hover {
+    background-color: var(--chai-primary-dark) !important; /* 悬停加深 */
+}
+
+/* ========== 开关组件样式 ==========
+ * 二元状态: 开/关,是/否,启用/禁用
+ * 交互方式: 点击切换,带动画过渡
+ * 无障碍: 支持键盘空格键切换 */
+.el-switch__core {
+    background-color: var(--chai-divider) !important; /* 关闭状态:浅色 */
+}
+
+.el-switch__core.is-checked {
+    background-color: var(--chai-primary) !important; /* 开启状态:品牌色 */
+}
+
+/* ========== 滚动条自定义样式 ==========
+ * 浏览器兼容: 仅支持Webkit内核(Chrome/Safari/Edge)
+ * Firefox适配: 需额外添加scrollbar-width和scrollbar-color属性
+ * 设计目标: 统一不同操作系统的滚动条外观 */
+::-webkit-scrollbar {
+    width: 8px; /* 滚动条宽度 - 窄而不拥挤 */
+}
+
+::-webkit-scrollbar-track {
+    background: var(--chai-light); /* 轨道背景色 - 与页面融合 */
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--chai-primary); /* 滑块颜色 - 品牌色可识别 */
+    border-radius: 4px; /* 圆角滑块,柔和 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--chai-primary-dark); /* 悬停时加深 - 提示可拖动 */
+}
+
+/* ========== 通用按钮样式 ==========
+ * 默认按钮: 非Primary/Success/Warning的其他按钮
+ * 降级策略: 浅色背景+品牌色边框,低调但不失品牌感 */
+.el-button {
+    background-color: var(--chai-light) !important;
+    border-color: var(--chai-primary) !important;
+    color: var(--chai-text-secondary) !important;
+    border-radius: 8px !important;
+}
+
+.el-button:hover {
+    background-color: var(--chai-primary) !important; /* 悬停填充品牌色 */
+    border-color: var(--chai-primary) !important;
+    color: var(--chai-text-primary) !important;
+}
+
+/* 按钮禁用状态 - 不可操作提示
+ * 视觉降级: 浅色背景+hint色文字,明显区别于可用状态
+ * 光标变化: not-allowed禁止图标,阻止点击预期 */
+.el-button[disabled],
+.el-button.is-disabled {
+    background-color: var(--chai-light) !important;
+    border-color: var(--chai-primary) !important;
+    color: var(--chai-text-hint) !important; /* hint色暗示不可用 */
+    cursor: not-allowed;
+}
+
+/* 按钮加载中状态 - 异步操作反馈
+ * 触发场景: 提交表单/上传文件/API请求
+ * 防重复提交: loading期间按钮不可再次点击 */
+.el-button.is-loading {
+    background-color: var(--chai-light) !important;
+    border-color: var(--chai-primary) !important;
+    color: var(--chai-text-secondary) !important;
+}
+
+/* 加载图标颜色 - 旋转动画 */
+.el-button.is-loading .el-loading-spinner {
+    color: var(--chai-primary) !important;
+}
+
+/* 输入框组合内的加载按钮 - 特殊处理
+ * 场景举例: 搜索框右侧的搜索按钮loading
+ * 样式调整: 移除边框避免与输入框边框重叠 */
+.el-input-group__append .el-button.is-loading,
+.el-input-group__prepend .el-button.is-loading {
+    background-color: var(--chai-light) !important;
+    border: none !important; /* 无边框,与输入框无缝衔接 */
+    color: var(--chai-text-secondary) !important;
+}
+
+/* 按钮内图标颜色 - 图文组合按钮 */
+.el-button .el-icon {
+    color: var(--chai-text-secondary) !important;
+}
+
+.el-button:hover .el-icon {
+    color: var(--chai-text-primary) !important; /* 悬停时图标也变色 */
+}
+
+/* ========== 输入框与按钮组合样式 ==========
+ * 典型应用: 搜索框(输入框+搜索按钮)/验证码(输入框+发送按钮)
+ * 视觉整合: 看起来是一个整体,实际是多个元素拼接
+ * 圆角策略: 外层容器圆角,内部元素直角 */
+.el-input-group {
+    border-radius: 8px !important; /* 整体圆角 */
+    overflow: hidden !important; /* 裁剪内部溢出的直角 */
+    border: 1px solid var(--chai-primary) !important; /* 外边框 */
+}
+
+.el-input-group__append,
+.el-input-group__prepend {
+    background-color: var(--chai-light) !important; /* 附加区域背景 */
+    border: none !important; /* 移除内部边框 */
+}
+
+.el-input-group__append .el-button,
+.el-input-group__prepend .el-button {
+    background-color: var(--chai-light) !important;
+    border: none !important; /* 按钮无边框,依赖外层边框 */
+    color: var(--chai-text-secondary) !important;
+    margin: 0 !important; /* 无外边距,紧密贴合 */
+    padding: 0 15px !important; /* 左右内边距 */
+}
+
+.el-input-group__append .el-button:hover,
+.el-input-group__prepend .el-button:hover {
+    background-color: var(--chai-primary) !important; /* 悬停填充 */
+    color: var(--chai-text-primary) !important;
+}
+
+.el-input-group .el-input__inner {
+    border: none !important; /* 输入框无边框 */
+    border-radius: 0 !important; /* 输入框无圆角 */
+}
+
+/* ========== Loading加载状态样式 ==========
+ * 加载层级: 全局Loading > 局部Loading > 按钮Loading
+ * 透明背景: 避免遮挡下方内容,用户仍能看到数据轮廓
+ * 色彩统一: 所有loading动画都用品牌色 */
+
+/* 全局Loading遮罩 - 整页加载
+ * 透明设计: 用户可看到页面骨架,减少焦虑感
+ * 阻挡交互: pointer-events阻止点击,防止数据混乱 */
+.el-loading-mask {
+    background-color: transparent !important; /* 透明背景,不遮挡内容 */
+}
+
+/* Loading图标容器 - 旋转动画载体 */
+.el-loading-spinner {
+    color: var(--chai-primary) !important;
+}
+
+/* Loading旋转动画 - circular外层圆环
+ * SVG实现: 使用<circle>元素绘制 */
+.el-loading-spinner .circular {
+    color: var(--chai-primary) !important;
+}
+
+/* Loading旋转动画 - path内层路径
+ * stroke属性: SVG线条颜色 */
+.el-loading-spinner .path {
+    stroke: var(--chai-primary) !important;
+}
+
+/* 按钮内部Loading遮罩 - 局部加载
+ * 范围限制: 仅在按钮内部显示,不影响其他区域 */
+.el-button .el-loading-mask {
+    background-color: transparent !important;
+}
+
+/* 按钮内部Loading图标 */
+.el-button .el-loading-spinner {
+    color: var(--chai-primary) !important;
+}
+
+/* 按钮内部Loading动画路径 */
+.el-button .el-loading-spinner .path {
+    stroke: var(--chai-primary) !important;
+}
+
+/* Loading状态下隐藏原有图标 - 避免冲突
+ * 问题场景: 按钮原本有图标(如🔍搜索),loading时会叠加旋转图标
+ * 解决策略: loading时display:none隐藏原图标 */
+.el-button.is-loading .el-icon {
+    display: none !important;
+}
+
+/* body层级Loading动画路径颜色 - 最高优先级
+ * 选择器权重: body开头提高优先级,确保覆盖所有情况 */
+body .el-loading-spinner .path {
+    stroke: var(--chai-primary) !important;
+}
+
+/* ========== Tooltip提示框样式 ==========
+ * 触发方式: hover/focus/click
+ * 定位策略: 智能判断位置,避免超出视口
+ * 内容限制: 简短文字提示,复杂内容用Popover */
+.el-tooltip__popper {
+    background-color: var(--chai-primary) !important; /* 品牌色背景 */
+    border: none !important; /* 无边框,简洁 */
+}
+
+.el-tooltip__popper.is-dark {
+    background-color: var(--chai-primary) !important; /* 暗色主题也用品牌色 */
+}
+
+/* ========== NProgress页面加载进度条 ==========
+ * 库介绍: NProgress是YouTube风格的顶部进度条
+ * 触发时机: 路由切换/API请求开始时启动
+ * 视觉位置: 页面最顶部,3px高度细条 */
+#nprogress {
+    pointer-events: none; /* 不阻挡鼠标事件 - 进度条不能影响页面交互 */
+}
+
+#nprogress .bar {
+    background: var(--chai-primary) !important; /* 进度条颜色 */
+    height: 3px !important; /* 进度条高度 - 纤细不抢眼 */
+}
+
+#nprogress .peg {
+    box-shadow: 0 0 10px var(--chai-primary), 0 0 5px var(--chai-primary) !important;
+    /* 前端光晕效果
+                                                                                        * 双层阴影: 10px大范围 + 5px小范围
+                                                                                        * 营造"光束"前进的动感 */
+}
+
+/* 隐藏NProgress转圈图标 - 极简设计
+ * 默认行为: NProgress右上角有个旋转spinner
+ * 隐藏原因: 顶部进度条已足够,spinner显得冗余 */
+#nprogress .spinner {
+    display: none !important;
+}
+
+/* ========== 辅助工具类 ==========
+ * 设计理念: 快速布局,避免重复写margin/padding
+ * 命名规则: 拼音数字(如yibai=100px),中文开发者友好
+ * 使用建议: 优先使用这些工具类,减少style属性 */
+
+/* 快速添加顶部间距 - 常用间距预设
+ * 间距梯度: 每档增加20px,从100px到300px
+ * 应用场景: 表单顶部/卡片间距/章节分隔
+ * 命名对照:
+ *   yibai(一百) = 100px | erbai(二百) = 120px
+ *   sanbai(三百) = 140px | sibai(四百) = 160px
+ *   wubai(五百) = 180px | liubai(六百) = 200px
+ *   qibai(七百) = 220px | babai(八百) = 240px
+ *   jiubai(九百) = 260px | yiqian(一千) = 300px */
+.yibai {
+    margin-top: 100px;
+}
+
+.erbai {
+    margin-top: 120px;
+}
+
+.sanbai {
+    margin-top: 140px;
+}
+
+.sibai {
+    margin-top: 160px;
+}
+
+.wubai {
+    margin-top: 180px;
+}
+
+.liubai {
+    margin-top: 200px;
+}
+
+.qibai {
+    margin-top: 220px;
+}
+
+.babai {
+    margin-top: 240px;
+}
+
+.jiubai {
+    margin-top: 260px;
+}
+
+.yiqian {
+    margin-top: 300px;
+}

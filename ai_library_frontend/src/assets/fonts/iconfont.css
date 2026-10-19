@@ -1,0 +1,313 @@
+/* 图标字体文件 - IconFont
+ * 项目ID: 3820793 (阿里云图标库)
+ * 项目地址: https://www.iconfont.cn/manage/index?manage_type=myprojects&projectId=3820793
+ * 用途: 系统各模块功能图标
+ *
+ * 技术选型理由:
+ * - 矢量图标: 任意缩放不失真,适配高分辨率屏幕
+ * - 字体格式: 支持woff2/woff/ttf三种格式,兼容所有现代浏览器
+ * - 性能优势: 相比SVG雪碧图,字体文件体积更小,加载更快
+ * - 样式控制: 可通过CSS直接修改颜色/大小,无需替换图片
+ *
+ * 维护流程:
+ * 1. 访问阿里云图标库项目页面
+ * 2. 添加新图标到购物车 → 下载至本地
+ * 3. 替换本目录下的 iconfont.* 文件
+ * 4. 复制新生成的CSS内容到此文件
+ * 5. 更新下方图标映射注释
+ *
+ * 注意事项:
+ * - URL中的时间戳?t=1672483284386用于缓存破坏,更新文件时必须修改
+ * - 图标类名使用拼音命名,保持与图标库一致
+ * - 禁止手动修改content的Unicode值,必须从图标库复制
+ */
+
+/* 引入自定义图标字体 - 多格式降级策略
+ * 加载优先级: woff2(最优) > woff(兼容) > ttf(兜底)
+ * 浏览器支持:
+ *   - woff2: Chrome 36+, Firefox 39+, Edge 14+ (压缩率最高,体积最小)
+ *   - woff: IE 9+, Safari 5.1+ (广泛兼容)
+ *   - ttf: 老旧Android浏览器 (最后防线)
+ *
+ * 缓存策略: URL参数?t=1672483284386作为版本号
+ *   - 作用: 强制浏览器重新下载新文件,避免使用旧缓存
+ *   - 更新时: 每次替换字体文件后,必须修改此时间戳
+ *   - 生成方式: 使用Date.now()或Unix时间戳 */
+@font-face {
+    font-family: "iconfont"; /* 字体族名称,后续通过font-family引用 */
+    src: url('iconfont.woff2?t=1672483284386') format('woff2'), /* WOFF 2.0 - 首选格式 */ url('iconfont.woff?t=1672483284386') format('woff'), /* WOFF 1.0 - 兼容格式 */ url('iconfont.ttf?t=1672483284386') format('truetype');      /* TTF - 兜底格式 */
+}
+
+/* 图标基础样式类 - 所有图标必须应用此类
+ * 使用方法: <i class="iconfont icon-xxx"></i>
+ * 核心属性:
+ *   - font-family: 绑定到iconfont字体族
+ *   - font-style: normal 防止斜体变形
+ *   - font-smoothing: 抗锯齿渲染,提升小字号清晰度
+ *
+ * 兼容性说明:
+ *   - -webkit-font-smoothing: Safari/Chrome浏览器
+ *   - -moz-osx-font-smoothing: macOS Firefox浏览器
+ *   - Windows系统自动使用ClearType渲染,无需额外设置 */
+.iconfont {
+    font-family: "iconfont" !important; /* 强制使用图标字体,优先级最高 */
+    font-size: 16px; /* 默认尺寸: 16px适合行内图标 */
+    font-style: normal; /* 禁用斜体,保证图标不变形 */
+    -webkit-font-smoothing: antialiased; /* WebKit浏览器字体平滑 - 亚像素渲染 */
+    -moz-osx-font-smoothing: grayscale; /* Firefox字体平滑 - 灰度抗锯齿 */
+}
+
+/* ========== 角色专属大图标(48px) ==========
+ * 设计场景: 登录页角色选择卡片/首页身份标识
+ * 视觉特征:
+ *   - 尺寸: 48px超大显示,醒目突出
+ *   - 颜色: 统一品牌色 var(--chai-primary)
+ *   - 位置: ::before伪元素插入,语义化HTML结构
+ *
+ * 使用示例:
+ *   <div class="role-card">
+ *     <i class="iconfont icon-guanliyuanrenzheng"></i>
+ *     <span>系统管理员</span>
+ *   </div>
+ */
+
+/* 系统管理员 - 规则设置图标
+ * Unicode: \e6dc
+ * 应用场景: 登录页管理员入口/后台首页身份标识
+ * 图标含义: 齿轮+盾牌,象征权限管理和系统配置
+ * 关联页面: LoginAdmin.vue, HomeAdmin.vue */
+.icon-guanliyuanrenzheng:before {
+    content: "\e6dc"; /* Unicode字符映射,指向具体图标glyph */
+    font-size: 48px !important; /* 超大尺寸,视觉焦点 */
+    color: var(--chai-primary) !important; /* 品牌色填充 */
+}
+
+/* 用户角色 - 个人信息图标
+ * Unicode: \e601
+ * 应用场景: 登录页读者入口/个人中心头像占位
+ * 图标含义: 人形轮廓,代表普通读者用户
+ * 关联页面: Index.vue, Information.vue, Borrow.vue */
+.icon-haoyou:before {
+    content: "\e601";
+    font-size: 48px !important;
+    color: var(--chai-primary) !important;
+}
+
+/* 图书管理员 - 图书期刊图标
+ * Unicode: \e618
+ * 应用场景: 登录页图书管理员入口/借阅管理首页
+ * 图标含义: 打开的书本,象征图书管理工作
+ * 关联页面: LoginBookManage.vue, HomeManage.vue, BorrowBook.vue */
+.icon-guanliyuan:before {
+    content: "\e618";
+    font-size: 48px !important;
+    color: var(--chai-primary) !important;
+}
+
+/* ========== 功能图标(默认16px) ==========
+ * 设计规范:
+ *   - 尺寸: 继承基础类16px,适合导航菜单/按钮内图标
+ *   - 颜色: 默认跟随父元素color,可被CSS覆盖
+ *   - 间距: 建议与文字保持4-8px间距 (margin-right: 4px)
+ *
+ * 命名约定:
+ *   - 使用拼音全拼或缩写,如 icon-sousuo (搜索)
+ *   - 同功能多版本用数字后缀,如 icon-gonggao / icon-gonggao1
+ *   - 尺寸变体用后缀标注,如 icon-sousuoxiao (小尺寸搜索)
+ *
+ * 使用频率统计:
+ *   - 高频: 首页/搜索/退出/个人信息 (每个页面都用)
+ *   - 中频: 公告/图书/规则 (多个页面使用)
+ *   - 低频: 智能分析/违规查询 (特定页面使用)
+ */
+
+/* 填充型图标 - 通用装饰性图标
+ * Unicode: \e638
+ * 类型: 实心圆形/方形填充
+ * 应用场景: 列表项前缀/数据点标记/装饰性圆点
+ * 使用提示: 需配合具体业务场景调整颜色 */
+.icon-tianchongxing-:before {
+    content: "\e638";
+}
+
+/* 公告通知 - 喇叭图标
+ * Unicode: \e600
+ * 应用场景:
+ *   - 顶部导航栏公告入口
+ *   - 首页公告栏标题前缀
+ *   - 消息提醒badge角标
+ * 关联组件: Notice.vue, NoticeManage.vue
+ * 交互提示: 有新公告时可添加红色圆点动画 */
+.icon-gonggao:before {
+    content: "\e600";
+}
+
+/* 首页(填充样式) - 房子图标
+ * Unicode: \e6ca
+ * 变体说明: fill版本为实心填充,另有line版本为线框
+ * 应用场景:
+ *   - 面包屑导航首页链接
+ *   - 侧边栏一级菜单
+ *   - 返回顶部按钮
+ * 关联组件: Home.vue, HomeAdmin.vue, HomeManage.vue
+ * 设计细节: 填充式比线框式更醒目,适合作为主导航 */
+.icon-shouyefill:before {
+    content: "\e6ca";
+}
+
+/* 搜索(小尺寸) - 放大镜图标
+ * Unicode: \e8d6
+ * 尺寸标注: "小"指图标本身设计简洁,非实际尺寸小
+ * 应用场景:
+ *   - 搜索框右侧搜索按钮
+ *   - 高级搜索展开触发器
+ *   - 图书检索输入框前缀
+ * 关联组件: Search.vue, BookManage.vue
+ * 交互建议: 点击后输入框获得焦点并弹出搜索面板 */
+.icon-sousuoxiao:before {
+    content: "\e8d6";
+}
+
+/* 图书期刊 - 书本图标
+ * Unicode: \e618
+ * 复用说明: 与图书管理员图标共用同一glyph
+ * 应用场景:
+ *   - 图书分类导航图标
+ *   - 藏书量统计卡片
+ *   - 借阅排行榜标题前缀
+ * 关联组件: BookManage.vue, BookAdminManage.vue, BookType.vue
+ * 业务关联: 点击跳转到图书列表或分类筛选页面 */
+.icon-tushuqikan:before {
+    content: "\e618";
+}
+
+/* 留言反馈 - 对话气泡图标
+ * Unicode: \e614
+ * 应用场景:
+ *   - 用户意见反馈入口
+ *   - 在线客服聊天按钮
+ *   - 留言板/评论区标题
+ * 关联组件: Comment.vue (可能用于留言功能)
+ * 扩展建议: 可配合数字badge显示未读消息数 */
+.icon-liuyan:before {
+    content: "\e614";
+}
+
+/* 退出登录 - 向右箭头+门图标
+ * Unicode: \e606
+ * 图标语义: 从门中走出,象征离开系统
+ * 应用场景:
+ *   - 顶部导航栏右上角退出按钮
+ *   - 个人中心底部退出选项
+ *   - 侧边栏底部固定退出按钮
+ * 关联组件: 所有Home*.vue组件的Header部分
+ * 安全提示: 点击后需二次确认,清除token并跳转登录页 */
+.icon-tuichu:before {
+    content: "\e606";
+}
+
+/* 个人信息 - 人形轮廓图标
+ * Unicode: \e601
+ * 复用说明: 与用户角色图标共用glyph,但尺寸不同(16px vs 48px)
+ * 应用场景:
+ *   - 下拉菜单"个人信息"选项
+ *   - 资料编辑页面标题前缀
+ *   - 账号设置入口图标
+ * 关联组件: Information.vue, User下拉菜单
+ * 交互逻辑: 点击跳转到个人资料编辑页面 */
+.icon-gerenxinxi:before {
+    content: "\e601";
+}
+
+/* 公告( variant 2) - 另一种样式的公告图标
+ * Unicode: \e8c4
+ * 变体对比:
+ *   - icon-gonggao (\e600): 传统喇叭形状
+ *   - icon-gonggao1 (\e8c4): 可能是信封或铃铛样式
+ * 使用建议: 两个版本可在不同场景区分使用
+ *   - 例: icon-gonggao用于系统公告, icon-gonggao1用于私信通知
+ * 待确认: 需在图标库查看具体视觉差异 */
+.icon-gonggao1:before {
+    content: "\e8c4";
+}
+
+/* 规则设置 - 齿轮图标
+ * Unicode: \e6dc
+ * 复用说明: 与系统管理员图标共用glyph
+ * 应用场景:
+ *   - 借阅规则配置页面
+ *   - 逾期罚款标准设置
+ *   - 权限管理/系统参数配置
+ * 关联组件: Rule.vue, StatementRuleManage.vue
+ * 权限控制: 仅管理员可见,普通用户隐藏此入口 */
+.icon-guizeshezhi:before {
+    content: "\e6dc";
+}
+
+/* 违规查询 - 警告三角图标
+ * Unicode: \e607
+ * 图标语义: 三角形+感叹号,警示意味
+ * 应用场景:
+ *   - 用户违规记录查询入口
+ *   - 逾期书籍列表标题
+ *   - 罚款缴纳页面
+ * 关联组件: Violation.vue, BorrowStatement.vue
+ * 业务逻辑: 显示用户的逾期/损坏/丢失等违规记录 */
+.icon-weizhangchaxun:before {
+    content: "\e607";
+}
+
+/* 智能分析 - AI大脑/图表图标
+ * Unicode: \e699
+ * 图标含义: 象征AI算法/数据分析/智能推荐
+ * 应用场景:
+ *   - 管理员后台数据分析入口
+ *   - 图书推荐算法展示区
+ *   - 借阅趋势统计图表标题
+ * 关联组件: IntelligentAnalysis.vue, AdminIntelligent.vue, ChartLine.vue
+ * 技术关联: 对接后端AI推荐接口,展示可视化图表
+ * 未来扩展: 可增加子图标区分不同类型的分析(热度/趋势/预测) */
+.icon-zhinengfenxi:before {
+    content: "\e699";
+}
+
+/* ========== 图标使用最佳实践 ==========
+ *
+ * 1. HTML结构规范:
+ *    <i class="iconfont icon-xxx" aria-hidden="true"></i>
+ *    - aria-hidden="true": 对屏幕阅读器隐藏,避免读出Unicode乱码
+ *    - 如需无障碍支持,改用SVG sprite方案
+ *
+ * 2. 尺寸调整方法:
+ *    .custom-icon { font-size: 24px; } /* 直接覆盖font-size *\/
+ *    或使用工具类: <i class="iconfont icon-xxx" style="font-size: 20px;"></i>
+ *
+ * 3. 颜色定制方法:
+ *    .nav-icon { color: var(--chai-primary); } /* 品牌色 *\/
+ *    .danger-icon { color: var(--chai-error); } /* 危险操作红色 *\/
+ *
+ * 4. 旋转动画示例:
+ *    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+ *    .loading-icon { animation: spin 1s linear infinite; }
+ *
+ * 5. 组合图标技巧:
+ *    <span class="icon-wrapper">
+ *      <i class="iconfont icon-sousuo"></i>
+ *      <span class="badge">3</span> /* 角标数字 *\/
+ *    </span>
+ *
+ * 6. 性能优化建议:
+ *    - 按需引入: 如果只用到10个图标,不要下载全部100个
+ *    - 字体子集化: 使用font-spider工具提取实际使用的glyph
+ *    - CDN加速: 将字体文件托管到CDN提升加载速度
+ *
+ * 7. 常见问题排查:
+ *    Q: 图标显示为方框/乱码?
+ *    A: 检查字体文件路径是否正确,URL是否包含正确的时间戳
+ *
+ *    Q: 图标颜色不生效?
+ *    A: 确认没有遗漏 !important,或检查父元素color是否被覆盖
+ *
+ *    Q: 图标模糊不清?
+ *    A: 确保使用了woff2格式,检查font-smoothing属性是否生效
+ */

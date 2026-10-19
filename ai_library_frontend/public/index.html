@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <!-- 移动端视口配置:确保响应式布局在不同设备上正常显示 -->
+    <meta content="width=device-width,initial-scale=1.0" name="viewport">
+
+    <!-- 注释掉这行（强制升级HTTPS，会导致没有SSL证书时连接被拒绝） -->
+    <!-- <meta content="upgrade-insecure-requests" http-equiv="Content-Security-Policy"> -->
+
+    <link href="<%= BASE_URL %>favicon.ico" rel="icon">
+    <!-- Swiper轮播组件依赖(已迁移至Vue组件内按需加载) -->
+    <!-- <link rel="stylesheet" href="../node_modules/swiper/dist/css/swiper.min.css">
+    <script src="../node_modules/swiper/dist/js/swiper.min.js"></script> -->
+
+    <title>AI图书馆管理系统</title>
+
+</head>
+<body>
+<!-- JavaScript禁用提示:本系统需要JavaScript支持才能正常运行 -->
+<noscript>
+    <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
+        Please enable it to continue.</strong>
+</noscript>
+<!-- Vue应用挂载点:所有组件将渲染在此容器中 -->
+<div id="app"></div>
+<!-- Webpack自动注入构建后的资源文件(CSS/JS等) -->
+
+</body>
+
+</html>
